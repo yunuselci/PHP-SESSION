@@ -29,13 +29,22 @@ if(isset($_POST['submit'])){
         soyisim = ?,
         email = ?,
         bio = ?'); //SQL Injection'u engelleme amaçlı bu şekilde bir kullanım yaptım
-        $insert = $query->execute([$kullaniciadi,$sifre,$isim,$soyisim,$email,$bio]);
-    if($insert){
-        header('Locatin:index.php');
-    }else{ // Insert yaparken hata alırsam daha düzgün görünsün diye böyle bir kullanım yaptım
-        $error = $query->errorInfo();
-        echo 'MySQL Hatası: ' . $error[2];
-    }
+        $check_username_result = $db->query("SELECT * FROM uyelerim WHERE kullaniciadi='$kullaniciadi' LIMIT 1");
+        $check_username = $check_username_result->fetch()['kullaniciadi'];
+        $check_email_result = $db->query("SELECT * FROM uyelerim WHERE email='$email' LIMIT 1");
+        $check_email = $check_email_result->fetch()['email'];
+        if($_POST['kullaniciadi'] === $check_username || $_POST['email'] === $check_email){
+            echo"<h3>". "Kullaniciadi veya Email zaten kayıtlı."."</h3>";
+
+        }else {
+            $insert = $query->execute([$kullaniciadi, $sifre, $isim, $soyisim, $email, $bio]);
+            if ($insert) { //insert başarılı ise index.'e yönlendirir
+                header('Location:index.php');
+            } else { // Insert yaparken hata alırsak, error mesajı.
+                $error = $query->errorInfo();
+                echo 'MySQL Hatası: ' . $error[2];
+            }
+        }
     }
 }
 

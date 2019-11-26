@@ -45,4 +45,6 @@ if (!$kullaniciadi) {
     <br>
     <input type="hidden" name="submit" value="1">
     <button type="submit">Giriş Yap</button>
+    <input type="button" value="Üye Ol" onClick="document.location.href='sign_up.php'" />
+
 </form>
