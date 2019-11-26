@@ -1,6 +1,5 @@
 <?php
 require_once 'db_connect.php';
-
 /*<-- Kullanıcının boşlukları tam doldurup doldurmadığı alınır --> */
 if (isset($_POST['submit'])) {
     $kullaniciadi = $_POST['kullaniciadi'] ?? null;
@@ -9,26 +8,37 @@ if (isset($_POST['submit'])) {
     $soyisim = $_POST['soyisim'] ?? null;
     $email = $_POST['email'] ?? null;
     $bio = $_POST['bio'] ?? null;
+    $error_messages = [];
     if (!$kullaniciadi) {
-        echo 'Kullanıcı Adı giriniz!';
-    } elseif (!$sifre) {
-        echo 'Şifre giriniz!';
-    } elseif (!$isim) {
-        echo 'Isim giriniz!';
-    } elseif (!$soyisim) {
-        echo 'Soyisim giriniz!';
-    } elseif (!$email) {
-        echo 'E-mail giriniz!';
-    } elseif (!$bio) {
-        echo 'Bio giriniz!';
-    } else {
+        array_push($error_messages, "Kullanıcı Adı");
+    } if (!$sifre) {
+        array_push($error_messages, "Şifre");
+    } if (!$isim) {
+        array_push($error_messages, "İsim");
+    } if (!$soyisim) {
+        array_push($error_messages, "Soy İsim");
+    } if (!$email) {
+        array_push($error_messages, "Email");
+    } if (!$bio) {
+        array_push($error_messages, "Bio");
+    } if (!$kullaniciadi || !$sifre || !$isim || !$soyisim || !$email || !$bio){
+        /*$length = count($error_messages);
+        for($i=0; $i<$length; $i++){
+            echo $error_messages[$i]." Girmediniz".'<br>';
+        }*/
+        foreach ($error_messages as $value) {
+            echo $value . ' Girmediniz<br>';
+        }
+    }elseif (!filter_var( $email ,FILTER_VALIDATE_EMAIL)){
+        echo 'Geçerli Bir E-Posta Girmediniz!';
+    }else {
         $query = $db->prepare('INSERT INTO uyelerim SET  
         kullaniciadi = ?,
         sifre = ?,
         isim = ?,
         soyisim = ?,
         email = ?,
-        bio = ?'); //SQL Injection'u engelleme amaçlı bu şekilde bir kullanım yaptım
+        bio = ?');
         $check_username_result = $db->query("SELECT * FROM uyelerim WHERE kullaniciadi='$kullaniciadi' LIMIT 1");
         $check_username = $check_username_result->fetch()['kullaniciadi'];
         $check_email_result = $db->query("SELECT * FROM uyelerim WHERE email='$email' LIMIT 1");
@@ -37,9 +47,9 @@ if (isset($_POST['submit'])) {
             echo "<h3>" . "Kullaniciadi veya Email zaten kayıtlı." . "</h3>";
         } else {
             $insert = $query->execute([$kullaniciadi, $sifre, $isim, $soyisim, $email, $bio]);
-            if ($insert) { //insert başarılı ise index.'e yönlendirir
+            if ($insert) {
                 header('Location:index.php');
-            } else { // Insert yaparken hata alırsak, error mesajı.
+            } else {
                 $error = $query->errorInfo();
                 echo 'MySQL Hatası: ' . $error[2];
             }

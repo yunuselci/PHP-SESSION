@@ -30,14 +30,15 @@ if (post('sil')) {
     ]);
     header('Location:todos.php');
 }
-if (post('checked'))
+if (post('checked')) {
     $id = $_POST['id'];
-$is_checked = 1;
-$query = $db->prepare("UPDATE todos SET is_checked=:is_checked WHERE id =:id");
-$query->execute([
-    "id" => $id,
-    "is_checked" => $is_checked
-]);
+    $is_checked = 1;
+    $query = $db->prepare("UPDATE todos SET is_checked=:is_checked WHERE id =:id");
+    $query->execute([
+        "id" => $id,
+        "is_checked" => $is_checked
+    ]);
+}
 ?>
 
 <head>
