@@ -35,18 +35,35 @@ if(isset($_SESSION['kullaniciadi'])) {
     </thead>
     <tbody>
     <?php
-    $getUsers = $db->prepare("SELECT * FROM uyelerim ORDER BY id ASC");
-    $getUsers->execute();
-    while(    $users = $getUsers->fetch()){
-        echo "<tr>".
-            "<td>".$users["id"]."</td>".
-            "<td>".$users["isim"]."</td>".
-            "<td>".$users["soyisim"]."</td>".
-            "<td>".$users["email"]."</td>".
-            "<td>".$users["bio"]."</td>".
-            "</tr>";
+    $limit = 5;
+    $query = "SELECT * FROM uyelerim";
+    $s = $db->prepare($query);
+    $s->execute();
+    $total_results = $s->rowCount();
+    $total_pages = ceil($total_results/$limit);
+    if (!isset($_GET['page'])) {
+    $page = 1;
+    } else{
+    $page = $_GET['page'];
     }
+    $starting_limit = ($page-1)*$limit;
+    $show = "SELECT * FROM uyelerim ORDER BY id ASC LIMIT $starting_limit, $limit";
+    $r = $db->prepare($show);
+    $r->execute();
+    while($res = $r->fetch(PDO::FETCH_ASSOC)):
     ?>
-
+    <tr>
+    <td><?php echo $res['id'];?></td>
+    <td><?php echo $res['isim'];?></td>
+    <td><?php echo $res['soyisim'];?></td>
+    <td><?php echo $res['email'];?></td>
+    <td><?php echo $res['bio'];?></td>
+    </tr>
+    <?php
+    endwhile;
+    for ($page=1; $page <= $total_pages ; $page++):?>
+    <a href='<?php echo "?page=$page"; ?>' class="links"><?php echo $page; ?>
+    </a>
+    <?php endfor; ?>
     </tbody>
 </table>
