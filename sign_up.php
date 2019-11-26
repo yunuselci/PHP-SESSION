@@ -2,7 +2,7 @@
 require_once 'db_connect.php';
 
 /*<-- Kullanıcının boşlukları tam doldurup doldurmadığı alınır --> */
-if(isset($_POST['submit'])){
+if (isset($_POST['submit'])) {
     $kullaniciadi = $_POST['kullaniciadi'] ?? null;
     $sifre = $_POST['sifre'] ?? null;
     $isim = $_POST['isim'] ?? null;
@@ -13,16 +13,16 @@ if(isset($_POST['submit'])){
         echo 'Kullanıcı Adı giriniz!';
     } elseif (!$sifre) {
         echo 'Şifre giriniz!';
-    }elseif (!$isim){
+    } elseif (!$isim) {
         echo 'Isim giriniz!';
-    }elseif (!$soyisim){
+    } elseif (!$soyisim) {
         echo 'Soyisim giriniz!';
-    }elseif (!$email){
+    } elseif (!$email) {
         echo 'E-mail giriniz!';
-    }elseif(!$bio){
+    } elseif (!$bio) {
         echo 'Bio giriniz!';
-    }else{
-        $query = $db -> prepare('INSERT INTO uyelerim SET  
+    } else {
+        $query = $db->prepare('INSERT INTO uyelerim SET  
         kullaniciadi = ?,
         sifre = ?,
         isim = ?,
@@ -33,10 +33,9 @@ if(isset($_POST['submit'])){
         $check_username = $check_username_result->fetch()['kullaniciadi'];
         $check_email_result = $db->query("SELECT * FROM uyelerim WHERE email='$email' LIMIT 1");
         $check_email = $check_email_result->fetch()['email'];
-        if($_POST['kullaniciadi'] === $check_username || $_POST['email'] === $check_email){
-            echo"<h3>". "Kullaniciadi veya Email zaten kayıtlı."."</h3>";
-
-        }else {
+        if ($_POST['kullaniciadi'] === $check_username || $_POST['email'] === $check_email) {
+            echo "<h3>" . "Kullaniciadi veya Email zaten kayıtlı." . "</h3>";
+        } else {
             $insert = $query->execute([$kullaniciadi, $sifre, $isim, $soyisim, $email, $bio]);
             if ($insert) { //insert başarılı ise index.'e yönlendirir
                 header('Location:index.php');

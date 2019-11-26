@@ -2,35 +2,31 @@
 require_once 'db_connect.php';
 session_start();
 
-if (isset($_POST['submit'])){
-$kullaniciadi = $_POST['kullaniciadi'] ?? null;
-$sifre = $_POST['sifre'] ?? null;
-if (!$kullaniciadi) {
-    echo 'Kullanıcı Adı giriniz!';
-} elseif (!$sifre) {
-    echo 'Şifre giriniz!';
-} else
-{
-    $query = "SELECT * FROM uyelerim WHERE kullaniciadi = :kullaniciadi AND sifre = :sifre";
-    $statement = $db->prepare($query);
-    $statement->execute(
-        array(
-            'kullaniciadi'     =>     $_POST["kullaniciadi"],
-            'sifre'     =>     $_POST["sifre"]
-        )
-    );
-    $count = $statement->rowCount();
-    if($count > 0)
-    {
-        $_SESSION["kullaniciadi"] = $_POST["kullaniciadi"];
-        header("location:users.php");
+if (isset($_POST['submit'])) {
+    $kullaniciadi = $_POST['kullaniciadi'] ?? null;
+    $sifre = $_POST['sifre'] ?? null;
+    if (!$kullaniciadi) {
+        echo 'Kullanıcı Adı giriniz!';
+    } elseif (!$sifre) {
+        echo 'Şifre giriniz!';
+    } else {
+        $query = "SELECT * FROM uyelerim WHERE kullaniciadi = :kullaniciadi AND sifre = :sifre";
+        $statement = $db->prepare($query);
+        $statement->execute(
+            array(
+                'kullaniciadi'     =>     $_POST["kullaniciadi"],
+                'sifre'     =>     $_POST["sifre"]
+            )
+        );
+        $count = $statement->rowCount();
+        if ($count > 0) {
+            $_SESSION["kullaniciadi"] = $_POST["kullaniciadi"];
+            header("location:users.php");
+        } else {
+            $message = '<label>Wrong Data</label>';
+            echo $message;
+        }
     }
-    else
-    {
-        $message = '<label>Wrong Data</label>';
-        echo $message;
-    }
-}
 }
 
 
