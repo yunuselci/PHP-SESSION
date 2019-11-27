@@ -34,7 +34,7 @@ if (isset($_SESSION['kullaniciadi'])) {
         <div class="d-flex justify-content-center h-100">
             <div class="card2">
                 <div class="card-header">
-                    <h3>Hoş Geldinin <?php echo $_SESSION['kullaniciadi']?></h3>
+                    <h3>Hoş Geldinin <?php echo $_SESSION['kullaniciadi'] ?></h3>
                 </div>
                 </table>
                 <table class="table table-striped">

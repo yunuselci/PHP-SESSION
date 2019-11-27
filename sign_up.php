@@ -1,5 +1,7 @@
 <?php
 require_once 'db_connect.php';
+
+
 /*<-- Kullanıcının boşlukları tam doldurup doldurmadığı alınır --> */
 if (isset($_POST['submit'])) {
     $kullaniciadi = $_POST['kullaniciadi'] ?? null;
@@ -33,8 +35,7 @@ if (isset($_POST['submit'])) {
             echo $error_messages[$i]." Girmediniz".'<br>';
         }*/
         foreach ($error_messages as $value) {
-            echo '<div class="alert alert-danger" role="alert">'.$value . ' Girmediniz<br>'.'</div>';
-
+            echo '<div class="alert alert-danger" role="alert">' . $value . ' Girmediniz<br>' . '</div>';
         }
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo 'Geçerli Bir E-Posta Girmediniz!';
@@ -54,11 +55,14 @@ if (isset($_POST['submit'])) {
             echo '<div class="alert alert-danger" role="alert">' . "Kullaniciadi veya Email zaten kayıtlı." . '</div>';
         } else {
             $insert = $query->execute([$kullaniciadi, $sifre, $isim, $soyisim, $email, $bio]);
-            if ($insert) {
+            if (!$insert) {
                 header('Location:index.php');
             } else {
                 $error = $query->errorInfo();
-                echo 'MySQL Hatası: ' . $error[2];
+                $dosya = fopen('errors.txt', 'a');
+                fwrite($dosya, $error[2]);
+                fclose($dosya);
+                echo 'Bir şeyler ters gitti.';
             }
         }
     }

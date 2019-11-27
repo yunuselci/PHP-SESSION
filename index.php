@@ -28,13 +28,13 @@ session_start();
                     <h3>Hoş Geldiniz</h3>
                 </div>
                 <div class="card-body">
-                    <input type="button" class="g-button" value="Giriş Yap" onClick="document.location.href='sign_in.php'" />
+                    <a class="g-button" href="sign_in.php">Giriş Yap</a>
                     <br>
                     <br>
-                    <input type="button" value="Üye Ol" class="g-button" onClick="document.location.href='sign_up.php'" />
+                    <a class="g-button" href="sign_up.php">Üye Ol</a>
                     <br>
                     <br>
-                    <input type="button" value="To Do" class="send-button" onClick="document.location.href='todos.php'" />
+                    <a class="send-button" href="todos.php">To Do</a>
                 </div>
 
             </div>
