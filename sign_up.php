@@ -55,7 +55,7 @@ if (isset($_POST['submit'])) {
             echo '<div class="alert alert-danger" role="alert">' . "Kullaniciadi veya Email zaten kayıtlı." . '</div>';
         } else {
             $insert = $query->execute([$kullaniciadi, $sifre, $isim, $soyisim, $email, $bio]);
-            if (!$insert) {
+            if ($insert) {
                 header('Location:index.php');
             } else {
                 $error = $query->errorInfo();
