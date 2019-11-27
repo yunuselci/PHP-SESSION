@@ -41,97 +41,118 @@ if (post('checked')) {
 }
 ?>
 
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<!DOCTYPE html>
+<html>
+
 <head>
-    <style>
-        table,
-        th,
-        td {
-            border: 1px solid gray;
-            border-collapse: collapse;
-        }
+    <title>Login Page</title>
+    <!--Made with love by Mutiullah Samim -->
 
-        th,
-        td {
-            padding: 15px;
-        }
-    </style>
+    <!--Bootsrap 4 CDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!--Fontawesome CDN-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+    <!--Custom styles-->
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
-</table>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Yapilacak</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <form action="" method="post">
-                    <input type="text" name="yapilacak">
-                    <input type="hidden" name="ekle" value="1">
-                    <button type="submit">Ekle</button>
-                </form>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<hr>
-</table>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Yapılacaklar</th>
-        </tr>
-    </thead>
-    <tbody>
 
-        <td><?php
-            $show = 'SELECT * FROM todos WHERE is_checked=0';
-            $r = $db->prepare($show);
-            $r->execute();
-            while ($res = $r->fetch(PDO::FETCH_ASSOC)) :
-                ?>
-                <tr>
-                    <td><?php echo $res['yapilacak']; ?>
-                        <form action="" method="post">
-                            <input type="hidden" name="sil" value="1">
-                            <input type="hidden" name="id" value="<?php echo $res['id']; ?>">
-                            <button type="submit">Sil</button>
-                        </form>
-                        <form action="" method="post">
-                            <input type="hidden" name="checked" value="1">
-                            <input type="hidden" name="id" value="<?php echo $res['id']; ?>">
-                            <button type="submit">Yapıldı Olarak İşaretle</button>
-                    </td>
-                    </form>
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-center h-100">
+            <div class="card2">
+                </table>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="color:white">Yapilacak</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="input-group form-group">
 
-                </tr>
-            <?php endwhile; ?>
-        </td>
+                                    <form action="" method="post">
+                                        <input type="text" class="form-control" name="yapilacak" placeholder="Yapılacak">
+                                        <input type="hidden" name="ekle" value="1">
+                                        <button type="submit" class="btn login_btn">Ekle</button>
+                                    </form>
+                                </div>
 
-    </tbody>
-</table>
-<hr>
-</table>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Yapılanlar</th>
-        </tr>
-    </thead>
-    <tbody>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                </table>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="color:white">Yapılacaklar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-        <td><?php
-            $show = 'SELECT * FROM todos WHERE is_checked=1';
-            $r = $db->prepare($show);
-            $r->execute();
-            while ($res = $r->fetch(PDO::FETCH_ASSOC)) :
-                ?>
-                <tr>
-                    <td><?php echo $res['yapilacak']; ?></td>
-                </tr>
-            <?php endwhile; ?>
-        </td>
+                        <td><?php
+                            $show = 'SELECT * FROM todos WHERE is_checked=0';
+                            $r = $db->prepare($show);
+                            $r->execute();
+                            while ($res = $r->fetch(PDO::FETCH_ASSOC)) :
+                                ?>
+                                <tr>
+                                    <td style="color:white"><?php echo $res['yapilacak']; ?>
+                                        <form action="" method="post">
+                                            <input type="hidden" name="sil" value="1">
+                                            <input type="hidden" name="id" value="<?php echo $res['id']; ?>">
+                                            <button type="submit" class="btn login_btn">Sil</button>
+                                        </form>
+                                        <form action="" method="post">
+                                            <input type="hidden" name="checked" value="1">
+                                            <input type="hidden" name="id" value="<?php echo $res['id']; ?>">
+                                            <button type="submit" class="btn login_btn">Yapıldı</button>
+                                    </td>
+                                    </form>
 
-    </tbody>
-</table>
+                                </tr>
+                            <?php endwhile; ?>
+                        </td>
+
+                    </tbody>
+                </table>
+                <hr>
+                </table>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="color:white">Yapılanlar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <td><?php
+                            $show = 'SELECT * FROM todos WHERE is_checked=1';
+                            $r = $db->prepare($show);
+                            $r->execute();
+                            while ($res = $r->fetch(PDO::FETCH_ASSOC)) :
+                                ?>
+                                <tr>
+                                    <td style="color:white"><?php echo $res['yapilacak']; ?></td>
+                                </tr>
+                            <?php endwhile; ?>
+                        </td>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
